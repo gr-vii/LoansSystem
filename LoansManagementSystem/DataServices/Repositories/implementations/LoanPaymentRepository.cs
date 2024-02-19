@@ -5,13 +5,13 @@ using LoansManagementSystem.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace LoansManagementSystem.DataServices.Repositories;
+namespace LoansManagementSystem.DataServices.Repositories.implementations;
 
 public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymentRepository
 {
     public LoanPaymentRepository(ILogger logger, Db db, IOptions<Configurations> config) : base(logger, db, config) { }
 
-    public async Task<IEnumerable<LoanPayment?>> GetLoanPaymentsAsync(Guid loanId)
+    public async Task<IEnumerable<LoanPayment>> GetLoanPaymentsAsync(Guid loanId)
     {
         try
         {

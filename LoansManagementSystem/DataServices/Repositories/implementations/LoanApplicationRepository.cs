@@ -5,28 +5,27 @@ using LoansManagementSystem.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace LoansManagementSystem.DataServices.Repositories;
+namespace LoansManagementSystem.DataServices.Repositories.implementations;
 
-public class ClientRepository : GenericRepository<Client>, IClientRepository
+public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILoanApplicationRepository
 {
-    public ClientRepository(ILogger logger, Db db, IOptions<Configurations> config) : base(logger, db, config)
-    {
-    }
+    public LoanApplicationRepository(ILogger logger, Db db, IOptions<Configurations> config) : base(logger, db, config) { }
 
-    public async Task<Client?> GetClientByPhoneNumberAsync(string phoneNumber)
+    public async Task<IEnumerable<LoanApplication>> GetClientLoansAsync(Guid clientId)
     {
         try
         {
-            return await _dbSet.FirstOrDefaultAsync(e => e.PhoneNumber == phoneNumber && e.Status == true);
+            return _dbSet.Where(e => e.ClientId == clientId);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "{Repo} GetClientByPhoneNumberAsync function error", typeof(LoanApplicationRepository));
+            _logger.LogError(e, "{Repo} GetClientLoansAsync function error", typeof(LoanApplicationRepository));
+
             throw;
         }
     }
 
-    public override async Task<IEnumerable<Client>> All()
+    public override async Task<IEnumerable<LoanApplication>> All()
     {
         try
         {
@@ -38,7 +37,7 @@ public class ClientRepository : GenericRepository<Client>, IClientRepository
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "{Repo} All function error", typeof(ClientRepository));
+            _logger.LogError(e, "{Repo} All function error", typeof(LoanApplicationRepository));
 
             throw;
         }
@@ -65,7 +64,7 @@ public class ClientRepository : GenericRepository<Client>, IClientRepository
         }
     }
 
-    public override async Task<bool> Update(Client client)
+    public override async Task<bool> Update(LoanApplication client)
     {
         try
         {
@@ -74,12 +73,12 @@ public class ClientRepository : GenericRepository<Client>, IClientRepository
             if (result == null)
                 return false;
 
-            result.PhoneNumber = client.PhoneNumber;
-            result.AccountNumber = client.PhoneNumber;
-            result.Password = client.Password;
-            result.Salt = client.Salt;
-            result.LastName = client.LastName;
-            result.FirstName = client.FirstName;
+            result.Amount = client.Amount;
+            result.EmploymentType = client.EmploymentType;
+            result.MonthIncome = client.MonthIncome;
+            result.Purpose = client.Purpose;
+            result.Term = client.Term;
+            result.FullName = client.FullName;
             result.LupDate = DateTime.UtcNow;
 
             return true;

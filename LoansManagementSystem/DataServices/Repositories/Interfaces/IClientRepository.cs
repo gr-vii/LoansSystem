@@ -4,5 +4,5 @@ namespace LoansManagementSystem.DataServices.Repositories.Interfaces;
 
 public interface IClientRepository : IGenericRepository<Client>
 {
-    Task<Client?> GetClientByPhoneNumberAsync(string phoneNumber);
+    Task<Client> GetClientByPhoneNumberAsync(string phoneNumber);
 }

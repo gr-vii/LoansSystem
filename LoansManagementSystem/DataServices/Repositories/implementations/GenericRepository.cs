@@ -4,7 +4,7 @@ using LoansManagementSystem.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace LoansManagementSystem.DataServices.Repositories;
+namespace LoansManagementSystem.DataServices.Repositories.implementations;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
@@ -26,7 +26,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         throw new NotImplementedException();
     }
 
-    public virtual async Task<T?> GetById(Guid id)
+    public virtual async Task<T> GetById(Guid id)
     {
         return await _dbSet.FindAsync(id);
     }

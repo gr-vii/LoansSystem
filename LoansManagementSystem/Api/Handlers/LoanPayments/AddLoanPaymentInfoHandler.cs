@@ -28,7 +28,7 @@ public class AddLoanPaymentInfoHandler : IRequestHandler<CreateLoanPaymentInfoRe
     {
         var loanPayment = _mapper.Map<LoanPayment>(request.LoanPaymentRequest);
 
-        await _loansSystem.LoanPayment.Add(loanPayment);
+        await _loansSystem.LoanPayments.Add(loanPayment);
         await _loansSystem.CompleteAsync();
 
         return _mapper.Map<LoanPayment>(loanPayment);

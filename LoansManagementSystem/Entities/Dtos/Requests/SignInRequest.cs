@@ -2,7 +2,7 @@
 
 namespace LoansManagementSystem.Entities.Dtos.Requests;
 
-public class CreateAccountRequest
+public class SignInRequest
 {
     [VerifyAndCorrectPhone]
     public string PhoneNumber { get; set; } = null!;

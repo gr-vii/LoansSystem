@@ -26,7 +26,7 @@ public class GetAllLoanPaymentsHandler : IRequestHandler<GetAllLoanPaymentsQuery
 
     public async Task<IEnumerable<LoanPaymentResponse>> Handle(GetAllLoanPaymentsQuery request, CancellationToken cancellationToken)
     {
-        var LoanPayment = await _loansSystem.LoanPayment.GetLoanPaymentsAsync(request.LoanId);
+        var LoanPayment = await _loansSystem.LoanPayments.GetLoanPaymentsAsync(request.LoanId);
         return _mapper.Map<IEnumerable<LoanPaymentResponse>>(LoanPayment);
     }
 }

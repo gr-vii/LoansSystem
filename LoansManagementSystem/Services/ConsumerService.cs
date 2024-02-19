@@ -1,6 +1,6 @@
 ﻿using LoansManagementSystem.MessageQueue;
 
-namespace LoansManagementSystem.BackgroundServices;
+namespace LoansManagementSystem.Services;
 
 public class ConsumerService : BackgroundService
 {
@@ -15,13 +15,10 @@ public class ConsumerService : BackgroundService
     {
         try
         {
-            Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiii");
-
             _consumer.ReceiveMessage();
         }
         catch (Exception e)
         {
-            Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiii");
             Console.WriteLine(e.Message);
         }
 

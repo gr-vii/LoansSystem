@@ -44,7 +44,7 @@ namespace LoansManagementSystem.Api.MappingProfiles
                     opt => opt.MapFrom(
                         src => DateTime.UtcNow));
 
-            CreateMap<CreateAccountRequest, Client>()
+            CreateMap<SignInRequest, Client>()
                 .ForMember(ds => ds.PhoneNumber,
                     opt => opt.MapFrom(src => src.PhoneNumber.VerifyAndCorrectPhone()))
                 .ForMember(ds => ds.InsDate,

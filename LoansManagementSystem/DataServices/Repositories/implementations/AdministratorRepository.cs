@@ -5,27 +5,28 @@ using LoansManagementSystem.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace LoansManagementSystem.DataServices.Repositories;
+namespace LoansManagementSystem.DataServices.Repositories.implementations;
 
-public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILoanApplicationRepository
+public class AdministratorRepository : GenericRepository<Administrator>, IAdministratorRepository
 {
-    public LoanApplicationRepository(ILogger logger, Db db, IOptions<Configurations> config) : base(logger, db, config) { }
+    public AdministratorRepository(ILogger logger, Db db, IOptions<Configurations> config) : base(logger, db, config)
+    {
+    }
 
-    public async Task<IEnumerable<LoanApplication?>> GetClientLoansAsync(Guid clientId)
+    public async Task<Administrator> GetAdministratorByPhoneNumberAsync(string phoneNumber)
     {
         try
         {
-            return _dbSet.Where(e => e.ClientId == clientId);
+            return await _dbSet.FirstOrDefaultAsync(e => e.PhoneNumber == phoneNumber && e.Status == true);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "{Repo} GetClientLoansAsync function error", typeof(LoanApplicationRepository));
-
+            _logger.LogError(e, "{Repo} GetAdministratorByPhoneNumberAsync function error", typeof(LoanApplicationRepository));
             throw;
         }
     }
 
-    public override async Task<IEnumerable<LoanApplication>> All()
+    public override async Task<IEnumerable<Administrator>> All()
     {
         try
         {
@@ -37,7 +38,7 @@ public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILo
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "{Repo} All function error", typeof(LoanApplicationRepository));
+            _logger.LogError(e, "{Repo} All function error", typeof(ClientRepository));
 
             throw;
         }
@@ -64,7 +65,7 @@ public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILo
         }
     }
 
-    public override async Task<bool> Update(LoanApplication client)
+    public override async Task<bool> Update(Administrator client)
     {
         try
         {
@@ -73,12 +74,11 @@ public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILo
             if (result == null)
                 return false;
 
-            result.Amount = client.Amount;
-            result.EmploymentType = client.EmploymentType;
-            result.MonthIncome = client.MonthIncome;
-            result.Purpose = client.Purpose;
-            result.Term = client.Term;
-            result.FullName = client.FullName;
+            result.PhoneNumber = client.PhoneNumber;
+            result.Password = client.Password;
+            result.Salt = client.Salt;
+            result.LastName = client.LastName;
+            result.FirstName = client.FirstName;
             result.LupDate = DateTime.UtcNow;
 
             return true;

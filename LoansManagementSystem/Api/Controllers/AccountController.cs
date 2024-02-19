@@ -1,7 +1,6 @@
 using AutoMapper;
+using LoansManagementSystem.Api.Commands.Account;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
-using LoansManagementSystem.Entities.Dtos.Requests;
-using LoansManagementSystem.Security;
 using LoansManagementSystem.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,45 +15,34 @@ public class AccountController : BaseController
     public AccountController(ILoansSystem loansSystem, IMapper mapper, IOptions<Configurations> config, IMediator mediator) : base(loansSystem, mapper, config, mediator) { }
 
     [HttpPost]
-    [Route("")]
-    public async Task<IActionResult> SignClientIn([FromBody] CreateAccountRequest account)
+    [Route("client")]
+    public async Task<IActionResult> SignClientIn([FromBody] Entities.Dtos.Requests.SignInRequest account)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var client = await _loansSystem.Clients.GetClientByPhoneNumberAsync(account.PhoneNumber);
+        var command = new SignUserInRequest(account);
+        var result = await _mediator.Send(command);
 
-        if (client == null)
-            return NotFound("User not found");
+        if (string.IsNullOrWhiteSpace(result))
+            return Unauthorized();
 
-        Hasher.CheckHashedPassword(client.Password, client.Salt, out var hashedPassword);
+        return Ok(new { Token = result });
+    }
 
-        //if (client.Password != hashedPassword)
-        //{
-        //    client.FailedLoginCounter += 1;
-        //    client.LupDate = DateTime.UtcNow;
+    [HttpPost]
+    [Route("administrator")]
+    public async Task<IActionResult> SignAdminIn([FromBody] Entities.Dtos.Requests.SignInRequest account)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
 
-        //    if (client.FailedLoginCounter >= _config.MaxFailedLogins)
-        //    {
-        //        client.Blocked = true;
-        //        client.LupDate = DateTime.UtcNow;
+        var command = new SignUserInRequest(account);
+        var result = await _mediator.Send(command);
 
-        //        _db.T_USERS.Update(user);
+        if (string.IsNullOrWhiteSpace(result))
+            return Unauthorized();
 
-        //        await _db.SaveChangesAsync();
-
-        //        return this.Response("You have exceeded your maximum login tries, your user is blocked", null, StatusCodes.Status403Forbidden);
-        //    }
-
-        //    return this.Response("Invalid username or password", null, StatusCodes.Status403Forbidden);
-        //}
-
-        //db.T_USERS.Update(user);
-
-        //await db.SaveChangesAsync();
-
-        //await _loansSystem.CompleteAsync();
-
-        return NoContent();
+        return Ok(new { Token = result });
     }
 }

@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using LoansManagementSystem.DataServices.Contexts;
+﻿using LoansManagementSystem.DataServices.Contexts;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Requests;
 using LoansManagementSystem.Utilities;
 using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
 
-namespace LoansManagementSystem.DataServices.Repositories;
+namespace LoansManagementSystem.DataServices.Repositories.implementations;
 
 public class LoansSystem : ILoansSystem, IDisposable
 {
@@ -14,7 +14,8 @@ public class LoansSystem : ILoansSystem, IDisposable
 
     public IClientRepository Clients { get; }
     public ILoanApplicationRepository LoanApplications { get; }
-    public ILoanPaymentRepository LoanPayment { get; }
+    public ILoanPaymentRepository LoanPayments { get; }
+    public IAdministratorRepository Administrators { get; }
 
     public LoansSystem(ILoggerFactory loggerFactory, Db db, IOptions<Configurations> config)
     {
@@ -25,7 +26,8 @@ public class LoansSystem : ILoansSystem, IDisposable
 
         Clients = new ClientRepository(logger, db, config);
         LoanApplications = new LoanApplicationRepository(logger, db, config);
-        LoanPayment = new LoanPaymentRepository(logger, db, config);
+        LoanPayments = new LoanPaymentRepository(logger, db, config);
+        Administrators = new AdministratorRepository(logger, db, config);
     }
 
     public async Task<bool> CompleteAsync()
@@ -39,7 +41,7 @@ public class LoansSystem : ILoansSystem, IDisposable
     {
         _db.Dispose();
     }
-
+    //TODO: remove
     public ValidationResult ValidateLoanApplication(CreateClientLoanApplicationRequest loan)
     {
         var errors = new List<string>();
@@ -67,7 +69,7 @@ public class LoansSystem : ILoansSystem, IDisposable
 
     private decimal CalculateMonthlyPayment(decimal loanAmount, int term, int rate)
     {
-        return (loanAmount + (loanAmount * rate)) / term;
+        return (loanAmount + loanAmount * rate) / term;
     }
 
     private decimal CalculateMonthlyIncomeMaxPercentage(decimal income, int maxPercentage)
