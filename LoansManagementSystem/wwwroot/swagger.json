@@ -1,0 +1,747 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "LoansManagementSystem",
+    "version": "1.0"
+  },
+  "paths": {
+"/api/Account/administrator": {
+  "post": {
+    "tags": [
+      "Account"
+    ],
+    "summary": "Sign in administrator",
+    "description": "This endpoint allows an administrator to sign in to the Loans Management System.",
+    "requestBody": {
+      "description": "Administrator sign in request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/SignInRequest"
+          },
+          "examples": {
+            "AdminSignIn": {
+              "summary": "Administrator Sign In",
+              "value": {
+                "PhoneNumber": "exampleadmin",
+                "Password": "examplepassword"
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/SignInRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/SignInRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "examples": {
+              "AdminSignInResponse": {
+                "summary": "Administrator Sign In Response",
+                "value": {
+                  "Token": "exampletoken"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "401": {
+        "description": "Unauthorized"
+      }
+    }
+  }
+},
+
+"/api/Clients/{clientId}": {
+  "get": {
+    "tags": [
+      "Clients"
+    ],
+    "summary": "Get client by ID",
+    "description": "This endpoint retrieves a client's information by their ID.",
+    "parameters": [
+      {
+        "name": "clientId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "ClientID": {
+            "summary": "Client ID",
+            "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "examples": {
+              "ClientInfo": {
+                "summary": "Client Information",
+                "value": {
+                  "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                  "Name": "John Doe",
+                  "Email": "john.doe@example.com"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "404": {
+        "description": "Not Found"
+      }
+    }
+  }
+},
+"/api/Clients": {
+  "post": {
+    "tags": [
+      "Clients"
+    ],
+    "summary": "Add a new client",
+    "description": "This endpoint allows for the creation of a new client.",
+    "requestBody": {
+      "description": "Client creation request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientRequest"
+          },
+          "examples": {
+            "CreateClient": {
+              "summary": "Create Client",
+              "value": {
+                "Name": "John Doe",
+                "Email": "john.doe@example.com"
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "201": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "examples": {
+              "CreateClientResponse": {
+                "summary": "Create Client Response",
+                "value": {
+                  "clientId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      }
+    }
+  },
+  "put": {
+    "tags": [
+      "Clients"
+    ],
+    "summary": "Update a client",
+    "description": "This endpoint allows for the updating of a client's information.",
+    "requestBody": {
+      "description": "Client update request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientRequest"
+          },
+          "examples": {
+            "UpdateClient": {
+              "summary": "Update Client",
+              "value": {
+                "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "John Doe",
+                "Email": "john.doe@example.com"
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "204": {
+        "description": "No Content"
+      },
+      "400": {
+        "description": "Bad Request"
+      }
+    }
+  },
+  "get": {
+    "tags": [
+      "Clients"
+    ],
+    "summary": "Get all clients",
+    "description": "This endpoint retrieves all clients' information.",
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "examples": {
+              "AllClients": {
+                "summary": "All Clients",
+                "value": [
+                  {
+                    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "Name": "John Doe",
+                    "Email": "john.doe@example.com"
+                  },
+                  {
+                    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+                    "Name": "Jane Doe",
+                    "Email": "jane.doe@example.com"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+    "delete": {
+    "tags": [
+      "Clients"
+    ],
+    "summary": "Delete a client",
+    "description": "This endpoint deletes a client's information by their ID.",
+    "parameters": [
+      {
+        "name": "clientId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "ClientID": {
+            "summary": "Client ID",
+            "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "No Content"
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "404": {
+        "description": "Not Found"
+      }
+    }
+  }
+},
+"/api/LoanApplications/{clientId}": {
+  "get": {
+    "tags": [
+      "LoanApplications"
+    ],
+    "summary": "Get client's loan applications",
+    "description": "This endpoint retrieves all loan applications for a specific client.",
+    "parameters": [
+      {
+        "name": "clientId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "ClientID": {
+            "summary": "Client ID",
+            "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "examples": {
+              "ClientLoans": {
+                "summary": "Client's Loan Applications",
+                "value": [
+                  {
+                    "LoanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "Amount": 5000,
+                    "InterestRate": 5.5,
+                    "Duration": 12
+                  },
+                  {
+                    "LoanId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+                    "Amount": 10000,
+                    "InterestRate": 6.5,
+                    "Duration": 24
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "404": {
+        "description": "Not Found"
+      }
+    }
+  }
+},
+"/api/LoanApplications": {
+  "post": {
+    "tags": [
+      "LoanApplications"
+    ],
+    "summary": "Add a new loan application",
+    "description": "This endpoint allows for the creation of a new loan application.",
+    "requestBody": {
+      "description": "Loan application creation request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientLoanApplicationRequest"
+          },
+          "examples": {
+            "CreateLoanApplication": {
+              "summary": "Create Loan Application",
+              "value": {
+                "ClientId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Amount": 5000,
+                "InterestRate": 5.5,
+                "Duration": 12
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientLoanApplicationRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateClientLoanApplicationRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "201": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "examples": {
+              "CreateLoanApplicationResponse": {
+                "summary": "Create Loan Application Response",
+                "value": {
+                  "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      }
+    }
+  },
+  "put": {
+    "tags": [
+      "LoanApplications"
+    ],
+    "summary": "Update a loan application",
+    "description": "This endpoint allows for the updating of a loan application's information.",
+    "requestBody": {
+      "description": "Loan application update request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientLoanApplicationRequest"
+          },
+          "examples": {
+            "UpdateLoanApplication": {
+              "summary": "Update Loan Application",
+              "value": {
+                "LoanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Amount": 5000,
+                "InterestRate": 5.5,
+                "Duration": 12
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientLoanApplicationRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateClientLoanApplicationRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "204": {
+        "description": "No Content"
+      },
+      "400": {
+        "description": "Bad Request"
+      }
+    }
+  }
+},
+"/api/LoanPayment/{loanId}": {
+  "get": {
+    "tags": [
+      "LoanPayment"
+    ],
+    "summary": "Get loan payments",
+    "description": "This endpoint retrieves all payments for a specific loan.",
+    "parameters": [
+      {
+        "name": "loanId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "examples": {
+          "LoanID": {
+            "summary": "Loan ID",
+            "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "examples": {
+              "LoanPayments": {
+                "summary": "Loan Payments",
+                "value": [
+                  {
+                    "PaymentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "Amount": 1000,
+                    "PaymentDate": "2024-02-20"
+                  },
+                  {
+                    "PaymentId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+                    "Amount": 1000,
+                    "PaymentDate": "2024-03-20"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "404": {
+        "description": "Not Found"
+      }
+    }
+  }
+},
+"/api/LoanPayment": {
+  "post": {
+    "tags": [
+      "LoanPayment"
+    ],
+    "summary": "Add a new loan payment",
+    "description": "This endpoint allows for the creation of a new loan payment.",
+    "requestBody": {
+      "description": "Loan payment creation request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateLoanPaymentRequest"
+          },
+          "examples": {
+            "CreateLoanPayment": {
+              "summary": "Create Loan Payment",
+              "value": {
+                "LoanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Amount": 1000,
+                "PaymentDate": "2024-02-20"
+              }
+            }
+          }
+        },
+        "text/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateLoanPaymentRequest"
+          }
+        },
+        "application/*+json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateLoanPaymentRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "201": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "examples": {
+              "CreateLoanPaymentResponse": {
+                "summary": "Create Loan Payment Response",
+                "value": {
+                  "loanId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad Request"
+      }
+    }
+  }
+}
+  },
+  "components": {
+    "schemas": {
+      "CreateClientLoanApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "employmentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthIncome": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "term": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateClientRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateLoanPaymentRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loanId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SignInRequest": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateClientLoanApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "employmentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthIncome": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "term": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateClientRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme.",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}

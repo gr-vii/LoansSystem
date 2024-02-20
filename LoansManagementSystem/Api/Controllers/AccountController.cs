@@ -1,12 +1,12 @@
 using AutoMapper;
 using LoansManagementSystem.Api.Commands.Account;
+using LoansManagementSystem.Api.Controllers;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
+using LoansManagementSystem.Entities.Dtos.Requests;
 using LoansManagementSystem.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-
-namespace LoansManagementSystem.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -16,7 +16,7 @@ public class AccountController : BaseController
 
     [HttpPost]
     [Route("client")]
-    public async Task<IActionResult> SignClientIn([FromBody] Entities.Dtos.Requests.SignInRequest account)
+    public async Task<IActionResult> SignClientIn([FromBody] SignInRequest account)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -32,7 +32,7 @@ public class AccountController : BaseController
 
     [HttpPost]
     [Route("administrator")]
-    public async Task<IActionResult> SignAdminIn([FromBody] Entities.Dtos.Requests.SignInRequest account)
+    public async Task<IActionResult> SignAdminIn([FromBody] SignInRequest account)
     {
         if (!ModelState.IsValid)
             return BadRequest();

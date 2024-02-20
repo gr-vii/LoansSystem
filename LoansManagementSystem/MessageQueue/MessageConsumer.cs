@@ -27,6 +27,7 @@ public class MessageConsumer : IMessageConsumer
             HostName = _config.RabbitMqHostName,
             UserName = _config.RabbitMqUserName,
             Password = _config.RabbitMqPassword,
+            //TODO FIX THIS RASING ERROR
             VirtualHost = _config.RabbitMqVirtualHost
         };
 
