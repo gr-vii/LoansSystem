@@ -1,12 +1,13 @@
 using AutoMapper;
 using LoansManagementSystem.Api.Commands.Account;
-using LoansManagementSystem.Api.Controllers;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Requests;
 using LoansManagementSystem.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+
+namespace LoansManagementSystem.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
