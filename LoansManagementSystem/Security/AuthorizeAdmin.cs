@@ -42,12 +42,12 @@ public class AuthorizeAdmin : ActionFilterAttribute
             }
             else
             {
-                context.Result = new StatusCodeResult(401);
+                context.Result = new StatusCodeResult(403);
             }
         }
         else
         {
-            context.Result = new StatusCodeResult(401);
+            context.Result = new StatusCodeResult(403);
         }
     }
 }
