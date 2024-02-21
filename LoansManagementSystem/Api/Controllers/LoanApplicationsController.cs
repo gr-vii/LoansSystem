@@ -3,16 +3,16 @@ using LoansManagementSystem.Api.Commands.LoanApplications;
 using LoansManagementSystem.Api.Queries.LoanApplications;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Requests;
+using LoansManagementSystem.Security;
 using LoansManagementSystem.Utilities;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace LoansManagementSystem.Api.Controllers;
 
-[Authorize]
 [ApiController]
+[AuthorizeClaim(new string[] { "Client" })]
 [Route("api/[controller]")]
 public class LoanApplicationsController : BaseController
 {

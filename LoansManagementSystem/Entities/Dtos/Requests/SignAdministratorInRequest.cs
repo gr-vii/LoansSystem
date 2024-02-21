@@ -2,14 +2,9 @@
 
 namespace LoansManagementSystem.Entities.Dtos.Requests;
 
-public class UpdateClientRequest
+public class SignAdministratorInRequest
 {
-    public Guid Id { get; set; }
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; }
-
     [VerifyAndCorrectPhone]
     public string PhoneNumber { get; set; } = null!;
     public string Password { get; set; } = null!;
-    public string AccountNumber { get; set; } = null!;
 }

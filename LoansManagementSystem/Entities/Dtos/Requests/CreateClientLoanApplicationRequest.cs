@@ -2,9 +2,6 @@
 
 public class CreateClientLoanApplicationRequest
 {
-    //TODO: take it from jwt
-    public Guid ClientId { get; set; }
-    public string FullName { get; set; } = null!;
     public string EmploymentType { get; set; } = null!;
     public int MonthIncome { get; set; }
     public int Term { get; set; }

@@ -3,6 +3,7 @@ using LoansManagementSystem.Api.Commands.Clients;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Responses;
 using LoansManagementSystem.Entities.Models;
+using LoansManagementSystem.Security;
 using LoansManagementSystem.Utilities;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,11 @@ public class AddClientInfoHandler : IRequestHandler<CreateClientInfoRequest, Cli
     public async Task<ClientResponse> Handle(CreateClientInfoRequest request, CancellationToken cancellationToken)
     {
         var client = _mapper.Map<Client>(request.ClientRequest);
+
+        Hasher.GetHashedPassword(client.Password, out var hashedPassword, out var salt);
+
+        client.Password = hashedPassword;
+        client.Salt = salt;
 
         await _loansSystem.Clients.Add(client);
         await _loansSystem.CompleteAsync();

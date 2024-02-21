@@ -34,6 +34,12 @@ namespace LoansManagementSystem.Api.MappingProfiles
                 .ForMember(ds => ds.LoanId,
                 opt => opt.MapFrom(
                     src => src.LoanId));
+
+            CreateMap<LoanPayment, LoanPaymentProcessingResponse>()
+                .ForMember(ds => ds.LoanId,
+                    opt => opt.MapFrom(
+                        src => src.Id));
+
         }
     }
 }

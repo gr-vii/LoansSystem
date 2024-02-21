@@ -2,6 +2,7 @@ using AutoMapper;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Utilities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -9,6 +10,7 @@ namespace LoansManagementSystem.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class BaseController : ControllerBase
 {
     protected readonly ILoansSystem _loansSystem;

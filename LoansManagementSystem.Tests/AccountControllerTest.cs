@@ -33,8 +33,8 @@ public class AccountControllerTests
     public async Task SignClientIn_ReturnsUnauthorized()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
-        _mediatorMock.Setup(m => m.Send(It.IsAny<SignUserInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(String.Empty);
+        var signInRequest = new SignClientInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<SignClientInfoInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(String.Empty);
 
         // Act
         var result = await _controller.SignClientIn(signInRequest);
@@ -47,7 +47,7 @@ public class AccountControllerTests
     public async Task SignClientIn_ReturnsBadRequest()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
+        var signInRequest = new SignClientInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
         _controller.ModelState.AddModelError("Error", "Model state is invalid");
 
         // Act
@@ -61,8 +61,8 @@ public class AccountControllerTests
     public async Task SignClientIn_ReturnsOk()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
-        _mediatorMock.Setup(m => m.Send(It.IsAny<SignUserInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxOTU5MTI2ZC0zYTgwLTQ3MmItODhmMy0wNDgzZDIyZjQxOTAiLCJVc2VyUm9sZSI6IkFkbWluaXN0cmF0b3IiLCJleHAiOjE3MDgzODg0MDMsImlzcyI6IkxNUyIsImF1ZCI6IkxvYW5zTWFuYWdlbWVudFN5c3RlbSJ9.IwkD08TipuOU3jN8K7D56h5UzYC4OP8fybjJmliNjpo");
+        var signInRequest = new SignClientInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<SignClientInfoInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxOTU5MTI2ZC0zYTgwLTQ3MmItODhmMy0wNDgzZDIyZjQxOTAiLCJVc2VyUm9sZSI6IkFkbWluaXN0cmF0b3IiLCJleHAiOjE3MDgzODg0MDMsImlzcyI6IkxNUyIsImF1ZCI6IkxvYW5zTWFuYWdlbWVudFN5c3RlbSJ9.IwkD08TipuOU3jN8K7D56h5UzYC4OP8fybjJmliNjpo");
 
         // Act
         var result = await _controller.SignClientIn(signInRequest);
@@ -75,8 +75,8 @@ public class AccountControllerTests
     public async Task SignAdminIn_ReturnsUnauthorized()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
-        _mediatorMock.Setup(m => m.Send(It.IsAny<SignUserInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(string.Empty);
+        var signInRequest = new SignAdministratorInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<SignAdministratorInfoInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(string.Empty);
 
         // Act
         var result = await _controller.SignAdminIn(signInRequest);
@@ -89,11 +89,11 @@ public class AccountControllerTests
     public async Task SignAdminIn_ReturnsBadRequest()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "InvalidPhoneNumber", Password = "Abcd1234" };
+        var signInRequest = new SignAdministratorInRequest { PhoneNumber = "InvalidPhoneNumber", Password = "Abcd1234" };
         _controller.ModelState.AddModelError("Error", "Model state is invalid");
 
         // Act
-        var result = await _controller.SignClientIn(signInRequest);
+        var result = await _controller.SignAdminIn(signInRequest);
 
         // Assert
         Assert.IsType<BadRequestResult>(result);
@@ -103,8 +103,8 @@ public class AccountControllerTests
     public async Task SignAdminIn_ReturnsOk()
     {
         // Arrange
-        var signInRequest = new SignInRequest { PhoneNumber = "96427736030362", Password = "Abcd1234" };
-        _mediatorMock.Setup(m => m.Send(It.IsAny<SignUserInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxOTU5MTI2ZC0zYTgwLTQ3MmItODhmMy0wNDgzZDIyZjQxOTAiLCJVc2VyUm9sZSI6IkFkbWluaXN0cmF0b3IiLCJleHAiOjE3MDgzODg0MDMsImlzcyI6IkxNUyIsImF1ZCI6IkxvYW5zTWFuYWdlbWVudFN5c3RlbSJ9.IwkD08TipuOU3jN8K7D56h5UzYC4OP8fybjJmliNjpo");
+        var signInRequest = new SignAdministratorInRequest() { PhoneNumber = "96427736030362", Password = "Abcd1234" };
+        _mediatorMock.Setup(m => m.Send(It.IsAny<SignAdministratorInfoInRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxOTU5MTI2ZC0zYTgwLTQ3MmItODhmMy0wNDgzZDIyZjQxOTAiLCJVc2VyUm9sZSI6IkFkbWluaXN0cmF0b3IiLCJleHAiOjE3MDgzODg0MDMsImlzcyI6IkxNUyIsImF1ZCI6IkxvYW5zTWFuYWdlbWVudFN5c3RlbSJ9.IwkD08TipuOU3jN8K7D56h5UzYC4OP8fybjJmliNjpo");
 
         // Act
         var result = await _controller.SignAdminIn(signInRequest);

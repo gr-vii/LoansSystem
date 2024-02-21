@@ -14,7 +14,7 @@ public class MessageConsumer : IDisposable
     {
         var factory = new ConnectionFactory()
         {
-            HostName = "rabbitmq",
+            HostName = "localhost",
             UserName = "admin",
             Password = "admin",
             VirtualHost = "/"

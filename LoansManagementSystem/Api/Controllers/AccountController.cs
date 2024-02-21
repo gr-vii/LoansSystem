@@ -4,12 +4,14 @@ using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Requests;
 using LoansManagementSystem.Utilities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace LoansManagementSystem.Api.Controllers;
 
 [ApiController]
+[AllowAnonymous]
 [Route("api/[controller]")]
 public class AccountController : BaseController
 {
@@ -17,12 +19,12 @@ public class AccountController : BaseController
 
     [HttpPost]
     [Route("client")]
-    public async Task<IActionResult> SignClientIn([FromBody] SignInRequest account)
+    public async Task<IActionResult> SignClientIn([FromBody] SignClientInRequest account)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var command = new SignUserInRequest(account);
+        var command = new SignClientInfoInRequest(account);
         var result = await _mediator.Send(command);
 
         if (string.IsNullOrWhiteSpace(result))
@@ -32,13 +34,14 @@ public class AccountController : BaseController
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [Route("administrator")]
-    public async Task<IActionResult> SignAdminIn([FromBody] SignInRequest account)
+    public async Task<IActionResult> SignAdminIn([FromBody] SignAdministratorInRequest account)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var command = new SignUserInRequest(account);
+        var command = new SignAdministratorInfoInRequest(account);
         var result = await _mediator.Send(command);
 
         if (string.IsNullOrWhiteSpace(result))

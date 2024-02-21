@@ -28,7 +28,6 @@ builder.Services.AddDbContext<Db>(options => options.UseNpgsql(connection));
 
 builder.Services.AddControllers(opt =>
 {
-    //TODO CHECK IF WORKS
     opt.Filters.Add<ExceptionHandler>();
 });
 
@@ -60,7 +59,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
+
 builder.Services.AddSingleton<IMessageConsumer, MessageConsumer>();
+
 builder.Services.AddSingleton<IJwt, Jwt>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -99,16 +100,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseStaticFiles();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger.json", "Loans Management System");
+    c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+    c.OAuthClientId("test-id");
+    c.OAuthClientSecret("test-secret");
+    c.OAuthRealm("test-realm");
+    c.OAuthAppName("Swagger UI");
+    c.OAuthScopeSeparator(" ");
+    c.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { { "audience", "LoansManagementSystem" } });
 });
-//todo:https for docker
-//app.UseHttpsRedirection();
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

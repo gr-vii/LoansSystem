@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace LoansManagementSystem.Api.Handlers.Account;
 
-public class SignClientInHandler : IRequestHandler<SignUserInRequest, string>
+public class SignClientInHandler : IRequestHandler<SignClientInfoInRequest, string>
 {
     private readonly ILoansSystem _loansSystem;
     private readonly IMapper _mapper;
@@ -28,9 +28,8 @@ public class SignClientInHandler : IRequestHandler<SignUserInRequest, string>
         _cache = cache;
     }
 
-    public async Task<string> Handle(SignUserInRequest request, CancellationToken cancellationToken)
+    public async Task<string> Handle(SignClientInfoInRequest request, CancellationToken cancellationToken)
     {
-
         var client = await _loansSystem.Clients.GetClientByPhoneNumberAsync(request.UserRequest.PhoneNumber);
 
         if (client == null)

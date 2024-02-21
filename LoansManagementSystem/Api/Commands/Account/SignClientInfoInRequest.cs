@@ -3,11 +3,11 @@ using MediatR;
 
 namespace LoansManagementSystem.Api.Commands.Account;
 
-public class SignUserInRequest : IRequest<string>
+public class SignClientInfoInRequest : IRequest<string>
 {
-    public SignInRequest UserRequest { get; }
+    public SignClientInRequest UserRequest { get; }
 
-    public SignUserInRequest(SignInRequest userRequest)
+    public SignClientInfoInRequest(SignClientInRequest userRequest)
     {
         UserRequest = userRequest;
     }

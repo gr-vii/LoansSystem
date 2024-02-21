@@ -31,9 +31,8 @@ public class SetStatusClientLoanApplicationInfoHandler : IRequestHandler<SetStat
     public async Task<bool> Handle(SetStatusClientLoanApplicationInfoRequest request, CancellationToken cancellationToken)
     {
         var result = _mapper.Map<LoanApplication>(request.ClientLoanApplicationRequest);
-        Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiii");
 
-        _emailService.SendEmailAsync("test@9ar.com", "teat", "test");
+        _emailService.SendEmailAsync("test@qi.com", "test", "test");
         await _loansSystem.LoanApplications.Update(result);
         await _loansSystem.CompleteAsync();
 

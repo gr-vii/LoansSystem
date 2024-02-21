@@ -10,14 +10,14 @@ public class VerifyAndCorrectPhoneAttribute : ValidationAttribute
 
         if (phoneNumber == null)
         {
-            return new ValidationResult("Phone number is required");
+            throw new BadHttpRequestException("Phone number is required");
         }
 
         var (isValid, correctedPhoneNumber) = phoneNumber.VerifyAndCorrectPhone();
 
         if (!isValid)
         {
-            return new ValidationResult("Phone number is not valid");
+            throw new BadHttpRequestException("Phone number is not valid");
         }
 
         if (validationContext.MemberName != null)

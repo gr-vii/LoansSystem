@@ -2,8 +2,7 @@
 
 public class UpdateClientLoanApplicationRequest
 {
-    public Guid ClientId { get; set; }
-    public string FullName { get; set; } = null!;
+    public Guid Id { get; set; }
     public string EmploymentType { get; set; } = null!;
     public int MonthIncome { get; set; }
     public int Term { get; set; }

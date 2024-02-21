@@ -1,7 +1,4 @@
-﻿using LoansManagementSystem.Entities.Dtos.Requests;
-using System.ComponentModel.DataAnnotations;
-
-namespace LoansManagementSystem.DataServices.Repositories.Interfaces;
+﻿namespace LoansManagementSystem.DataServices.Repositories.Interfaces;
 
 public interface ILoansSystem
 {
@@ -11,5 +8,4 @@ public interface ILoansSystem
     IAdministratorRepository Administrators { get; }
 
     Task<bool> CompleteAsync();
-    ValidationResult ValidateLoanApplication(CreateClientLoanApplicationRequest loan);
 }

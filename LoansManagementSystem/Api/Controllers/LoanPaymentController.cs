@@ -3,16 +3,16 @@ using LoansManagementSystem.Api.Commands.LoanPayments;
 using LoansManagementSystem.Api.Queries.LoanPayments;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Dtos.Requests;
+using LoansManagementSystem.Security;
 using LoansManagementSystem.Utilities;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace LoansManagementSystem.Api.Controllers;
 
-[Authorize]
 [ApiController]
+[AuthorizeClaim(new string[] { "Administrator", "Client" })]
 [Route("api/[controller]")]
 public class LoanPaymentController : BaseController
 {
@@ -34,8 +34,7 @@ public class LoanPaymentController : BaseController
     {
         if (!ModelState.IsValid)
             return BadRequest();
-        //TODO:Vlidate all the previous amount so we dont have a number in -
-        //TODO: update term to mean months instead of number of payments
+
         var command = new CreateLoanPaymentInfoRequest(loanPayment);
         var result = await _mediator.Send(command);
 

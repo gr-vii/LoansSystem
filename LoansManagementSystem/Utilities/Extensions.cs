@@ -8,9 +8,9 @@ public static class Extensions
         {
             string rawPhone = phone[phone.IndexOf('7')..];
 
-            if (rawPhone.Length != 10 || rawPhone is null)
+            if (rawPhone.Length != 10)
             {
-                throw new Exception("Invalid Phone Number!");
+                return (false, null)!;
             }
 
             return (true, "964" + rawPhone);
@@ -19,7 +19,7 @@ public static class Extensions
 
         catch (ArgumentOutOfRangeException)
         {
-            return (false, null);
+            return (false, null)!;
         }
     }
 

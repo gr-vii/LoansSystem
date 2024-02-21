@@ -2,6 +2,7 @@
 using LoansManagementSystem.Api.Commands.Clients;
 using LoansManagementSystem.DataServices.Repositories.Interfaces;
 using LoansManagementSystem.Entities.Models;
+using LoansManagementSystem.Security;
 using LoansManagementSystem.Utilities;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -27,6 +28,11 @@ public class UpdateClientInfoHandler : IRequestHandler<UpdateClientInfoRequest, 
     public async Task<bool> Handle(UpdateClientInfoRequest request, CancellationToken cancellationToken)
     {
         var result = _mapper.Map<Client>(request.ClientRequest);
+
+        Hasher.GetHashedPassword(result.Password, out var hashedPassword, out var salt);
+
+        result.Password = hashedPassword;
+        result.Salt = salt;
 
         await _loansSystem.Clients.Update(result);
         await _loansSystem.CompleteAsync();

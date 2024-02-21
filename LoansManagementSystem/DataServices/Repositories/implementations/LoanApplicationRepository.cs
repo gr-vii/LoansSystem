@@ -78,7 +78,6 @@ public class LoanApplicationRepository : GenericRepository<LoanApplication>, ILo
             result.MonthIncome = client.MonthIncome;
             result.Purpose = client.Purpose;
             result.Term = client.Term;
-            result.FullName = client.FullName;
             result.LupDate = DateTime.UtcNow;
 
             return true;

@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 namespace LoansManagementSystem.Api.Controllers;
 
-[AuthorizeAdmin]
 [ApiController]
+[AuthorizeClaim(new string[] { "Administrator" })]
 [Route("api/[controller]")]
 public class ClientsController : BaseController
 {
